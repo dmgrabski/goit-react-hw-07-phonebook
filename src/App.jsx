@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Section from "./components/Section/Section";
 import ContactForm from "./components/ContactForm/ContactForm";
 import Contacts from "./components/ContactList/ContactList";
 import Filter from "./components/Filter/Filter";
 import "./App.css";
-import { useSelector } from "react-redux";
 
 const App = () => {
   return (
@@ -21,3 +20,4 @@ const App = () => {
 };
 
 export default App;
+
