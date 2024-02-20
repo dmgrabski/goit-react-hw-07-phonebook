@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux"; 
-import { fetchContactAsync } from "../src/redux/contactsSlice"; 
+import { fetchContactsAsync } from "../src/redux/contactsSlice"; 
 import Section from "./components/Section/Section";
 import ContactForm from "./components/ContactForm/ContactForm";
 import Contacts from "./components/ContactList/ContactList";
@@ -11,7 +11,7 @@ const App = () => {
   const dispatch = useDispatch(); 
 
   useEffect(() => {
-    dispatch(fetchContactAsync());
+    dispatch(fetchContactsAsync());
   }, [dispatch]); 
 
   return (
