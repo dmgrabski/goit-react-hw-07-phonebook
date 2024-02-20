@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteContactsAsync } from "../../redux/contactsSlice";
+import { deleteContactAsync } from "../../redux/contactsSlice";
 const ContactList = () => {
   const contacts = useSelector((state) => state.contacts.contacts);
   const filter = useSelector((state) => state.filter);
