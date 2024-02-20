@@ -18,7 +18,25 @@ export const addContactAsync = createAsyncThunk(
   'contacts/addContact',
   async (contactData) => {
     const response = await axios.post('/contacts', contactData); // '/contacts' to endpoint API
-    return response.data; // Zwraca dodany kontakt
+    return response.data;
+  }
+);
+
+
+export const fetchContactsAsync = createAsyncThunk(
+  'contacts/fetchContacts',
+  async () => {
+    const response = await axios.get('/contacts');
+    return response.data;
+  }
+);
+
+
+export const deleteContactAsync = createAsyncThunk(
+  'contacts/deleteContact',
+  async (contactId) => {
+    await axios.delete(`/contacts/${contactId}`);
+    return contactId;
   }
 );
 
@@ -26,25 +44,24 @@ export const contactsSlice = createSlice({
   name: "contacts",
   initialState,
   reducers: {
-    addContact: (state, action) => {
-      state.contacts.push(action.payload);
-    },
-    deleteContacts: (state, action) => {
-      state.contacts = state.contacts.filter((contact) => contact.id !== action.payload);
-    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(addContactAsync.pending, (state) => {
-        // Opcjonalnie: zaktualizuj stan, aby wskazać, że trwa ładowanie
+        
       })
       .addCase(addContactAsync.fulfilled, (state, action) => {
-        state.contacts.push(action.payload); // Dodaj nowy kontakt do stanu
+        state.contacts.push(action.payload); 
       })
       .addCase(addContactAsync.rejected, (state) => {
-        // Opcjonalnie: obsłuż błąd
+      })
+      .addCase(fetchContactsAsync.fulfilled, (state, action) => {
+        state.contacts = action.payload; 
+      })
+      .addCase(deleteContactAsync.fulfilled, (state, action) => {
+        state.contacts = state.contacts.filter(contact => contact.id !== action.payload); 
       });
-    // Obsługa innych akcji asynchronicznych...
+    
   },
 });
 
