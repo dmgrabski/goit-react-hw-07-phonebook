@@ -1,29 +1,33 @@
 import { useState } from "react";
-import { nanoid } from "nanoid";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
+// Zaimportuj akcję asynchroniczną zamiast synchronicznej
+import { addContactAsync } from "../../redux/contactsSlice";
 
 const ContactForm = () => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
-  const contacts = useSelector((state) => state.contacts);
+  // Popraw selektor, aby odwołał się do poprawnej struktury stanu
+  // Zakładając, że stan kontaktów znajduje się w state.contacts.contacts
+  const contacts = useSelector((state) => state.contacts.contacts);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const normalizedName = name.toLowerCase();
-    const isAdded = contacts.find(
-      (el) => el.name.toLowerCase() === normalizedName
+    const isAdded = contacts.some(
+      (contact) => contact.name.toLowerCase() === normalizedName
     );
 
     if (isAdded) {
-      console.log(`${name}: is already in contacts`);
+      console.log(`${name} is already in contacts`);
       return;
     }
 
-    dispatch(addContact({ id: nanoid(), name, number }));
+    // Użyj akcji asynchronicznej z danymi kontaktu bez generowania ID tutaj, 
+    // zakładając, że ID będzie generowane przez backend/API.
+    dispatch(addContactAsync({ name, number }));
     setName("");
     setNumber("");
   };
@@ -31,6 +35,7 @@ const ContactForm = () => {
   const handleChangeName = (e) => {
     setName(e.target.value);
   };
+
   const handleChangeNumber = (e) => {
     setNumber(e.target.value);
   };

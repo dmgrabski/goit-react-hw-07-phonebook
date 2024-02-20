@@ -11,14 +11,21 @@ const initialState = {
     { id: "id-3", name: "Eden Clements", number: "645-17-79" },
     { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
   ],
-  tasks: [],
-  tasksLoading: false,
 };
 
 export const fetchTasks = createAsyncThunk("tasks/fetchAll", async () => {
   const response = await axios.get("/tasks");
   return response.data;
 });
+
+// Asynchroniczny thunk do dodawania nowego kontaktu
+export const addContactAsync = createAsyncThunk(
+  'contacts/addContact',
+  async (contactData) => {
+    const response = await axios.post('/contacts', contactData); // '/contacts' to endpoint API
+    return response.data; // Zwraca dodany kontakt
+  }
+);
 
 export const contactsSlice = createSlice({
   name: "contacts",
@@ -33,16 +40,16 @@ export const contactsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTasks.pending, (state) => {
-        state.tasksLoading = true;
+      .addCase(addContactAsync.pending, (state) => {
+        // Opcjonalnie: zaktualizuj stan, aby wskazać, że trwa ładowanie
       })
-      .addCase(fetchTasks.fulfilled, (state, action) => {
-        state.tasksLoading = false;
-        state.tasks = action.payload;
+      .addCase(addContactAsync.fulfilled, (state, action) => {
+        state.contacts.push(action.payload); // Dodaj nowy kontakt do stanu
       })
-      .addCase(fetchTasks.rejected, (state) => {
-        state.tasksLoading = false;
+      .addCase(addContactAsync.rejected, (state) => {
+        // Opcjonalnie: obsłuż błąd
       });
+    // Obsługa innych akcji asynchronicznych...
   },
 });
 
