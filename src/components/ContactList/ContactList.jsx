@@ -16,7 +16,7 @@ const ContactList = () => {
         return (
           <li key={contact.id}>
             {contact.name}: {contact.number}
-            <button onClick={() => dispatch(deleteContactsAsync(contact.id))}>
+            <button onClick={() => dispatch(deleteContactAsync(contact.id))}>
               Delete
             </button>
           </li>
