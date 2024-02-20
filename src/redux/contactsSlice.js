@@ -22,7 +22,6 @@ export const addContactAsync = createAsyncThunk(
   }
 );
 
-
 export const fetchContactsAsync = createAsyncThunk(
   'contacts/fetchContacts',
   async () => {
@@ -31,11 +30,11 @@ export const fetchContactsAsync = createAsyncThunk(
   }
 );
 
-
+// Asynchroniczny thunk do usuwania kontaktu
 export const deleteContactAsync = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId) => {
-    await axios.delete(`/contacts/${contactId}`);
+    await axios.delete(`/${contactId}`);
     return contactId;
   }
 );
